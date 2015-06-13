@@ -94,7 +94,7 @@ results$elapsed = c(NA, diff(results$time))
 results = data.table(results)
 results$interval = as.POSIXct(interval_s * ( 1+ as.numeric(results$time) %/% interval_s), origin = "1970-01-01")
 aggs = results[, list(pledged=max(pledged), rate=sum(delta)/interval_d), by=interval]
-aggs$sliding_rate = rollapply(aggs$rate, window_width, function(x) weighted.mean(x, weights))
+aggs$sliding_rate = rollapply(aggs$rate, window_width, function(x) weighted.mean(x, weights), fill=NA)
 
 results$continuous = results$elapsed<=60*60
 results$category = ifelse(!is.na(results$continuous) & results$continuous, "continuous", "interrupted")
