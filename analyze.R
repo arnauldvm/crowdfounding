@@ -128,11 +128,15 @@ print(g)
 # 
 # print(g2)
 
+min_rate = min(aggs$rate)
+# max_rate = NA
+# max_rate = 20000
+max_rate = 75000
 g3 = ggplot(aggs, aes(x=interval)) +
   geom_line(aes(y=rate, ymin=sliding_rate), linetype="dotted", size=0.5) +
   geom_line(aes(y=sliding_rate), linetype="solid") +
   geom_smooth(aes(y=sliding_rate)) +
-  scale_y_continuous("rate ($/d)", limits=c(min(aggs$rate),75000), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
+  scale_y_continuous("rate ($/d)", limits=c(min_rate,max_rate), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   scale_x_datetime("date", limits=c(min(results$time), stop_time2), minor_breaks=pretty_breaks(n=45))
 
 print(g3)
