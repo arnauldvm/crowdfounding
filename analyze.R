@@ -69,7 +69,7 @@ repeat {
     found = scroll(scroll_id=found$`_scroll_id`)
   }
   if (0==length(found$hits$hits)) {
-    cat("Reached end")
+    cat("Reached end\n")
     break
   }
   hits = as.vector(found$hits$hits)
@@ -141,4 +141,4 @@ g3 = ggplot(aggs, aes(x=interval)) +
 
 print(g3)
 
-cat(max(results$pledged))
+cat("Current pledge level:", max(results$pledged), "\n")
