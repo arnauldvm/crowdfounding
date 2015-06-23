@@ -30,6 +30,7 @@ project="MN"
 # project="HOPE"
 if (project=="MN") {
   slug="mare-nostrum-empires"
+  start_time_str = "20150522-190000"
   stop_time_str = "20150706-192000"
   stop_time2_str = "20150620-180000"
   sg = c(15,25,35,45,55,60,70,75,85,90,100,
@@ -41,6 +42,7 @@ if (project=="MN") {
   max_rate = 75000
 } else {
   slug="hope-the-board-game"
+  start_time_str = "20150615-201500"
   stop_time_str = "20150715-201600"
   stop_time2_str = "20150620-180000"
   sg = c(25,50)*1000
@@ -72,6 +74,7 @@ from_list = function(l, name) {
   #pl = ifelse(length(l>0), ifelse(is.null(l[[1]]), NA, pl_list[[1]]), NA)
 }
 
+start_time = str2time(start_time_str)
 stop_time = str2time(stop_time_str)
 stop_time2 = str2time(stop_time2_str)
 
@@ -130,7 +133,7 @@ g = ggplot(results, aes(x=time)) +
   geom_hline(yintercept=sg, size=0.5, alpha=0.2) +
   scale_y_continuous("pledged ($)", limits=c(0,NA), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   #scale_y_continuous(pledged ($)", limits=c(0,NA), labels=function(x) sprintf("%.3f", x/1000), breaks=pretty_breaks(n=8)) +
-  scale_x_datetime("date", limits=c(min(results$time), stop_time), minor_breaks=pretty_breaks(n=45))
+  scale_x_datetime("date", limits=c(start_time, stop_time), minor_breaks=pretty_breaks(n=45))
 
 print(g)
 
@@ -138,7 +141,7 @@ print(g)
 #   geom_line(aes(y=pledged), linetype="solid") +
 #   geom_hline(yintercept=sg, size=0.5, alpha=0.2) +
 #   scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
-#   scale_x_datetime("date", limits=c(min(results$time), stop_time), minor_breaks=pretty_breaks(n=45))
+#   scale_x_datetime("date", limits=c(start_time, stop_time), minor_breaks=pretty_breaks(n=45))
 # 
 # print(g2)
 
@@ -148,7 +151,7 @@ g3 = ggplot(aggs, aes(x=interval)) +
   geom_line(aes(y=sliding_rate), linetype="solid") +
   geom_smooth(aes(y=sliding_rate)) +
   scale_y_continuous("rate ($/d)", limits=c(min_rate,max_rate), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
-  scale_x_datetime("date", limits=c(min(results$time), stop_time2), minor_breaks=pretty_breaks(n=45))
+  scale_x_datetime("date", limits=c(start_time, stop_time2), minor_breaks=pretty_breaks(n=45))
 
 print(g3)
 
