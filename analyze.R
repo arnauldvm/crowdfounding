@@ -115,7 +115,9 @@ results$elapsed = c(NA, diff(results$time))
 results = data.table(results)
 results$interval = as.POSIXct(interval_s * ( 1+ as.numeric(results$time) %/% interval_s), origin = "1970-01-01")
 aggs = results[, list(pledged=max(pledged), rate=sum(delta)/interval_d), by=interval]
-aggs$sliding_rate = rollapply(aggs$rate, window_width, function(x) weighted.mean(x, weights), fill=NA)
+if (nrow(aggs)>=window_width) {
+  aggs$sliding_rate = rollapply(aggs$rate, window_width, function(x) weighted.mean(x, weights), fill=NA)
+}
 
 results$continuous = results$elapsed<=60*60
 results$category = ifelse(!is.na(results$continuous) & results$continuous, "continuous", "interrupted")
@@ -147,8 +149,11 @@ print(g)
 
 min_rate = min(aggs$rate)
 g3 = ggplot(aggs, aes(x=interval)) +
-  geom_line(aes(y=rate, ymin=sliding_rate), linetype="dotted", size=0.5) +
-  geom_line(aes(y=sliding_rate), linetype="solid") +
+  geom_line(aes(y=rate, ymin=sliding_rate), linetype="dotted", size=0.5)
+if (nrow(aggs)>=window_width) {
+  g3 = g3 + geom_line(aes(y=sliding_rate), linetype="solid")
+}
+g3 = g3 +
   geom_smooth(aes(y=sliding_rate)) +
   scale_y_continuous("rate ($/d)", limits=c(min_rate,max_rate), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   scale_x_datetime("date", limits=c(start_time, stop_time2), minor_breaks=pretty_breaks(n=45))
