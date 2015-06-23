@@ -149,7 +149,7 @@ print(g)
 
 min_rate = min(aggs$rate)
 g3 = ggplot(aggs, aes(x=interval)) +
-  geom_line(aes(y=rate, ymin=sliding_rate), linetype="dotted", size=0.5)
+  geom_line(aes(y=rate), linetype="dotted", size=0.5)
 if (nrow(aggs)>=window_width) {
   g3 = g3 + geom_line(aes(y=sliding_rate), linetype="solid")
 }
