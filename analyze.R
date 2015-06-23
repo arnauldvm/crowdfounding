@@ -141,7 +141,7 @@ g = ggplot(results, aes(x=time)) +
   geom_vline(xintercept=vlines_time, size=0.5, colour=vlines_colour) +
   scale_y_continuous("pledged ($)", limits=c(0,NA), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   #scale_y_continuous(pledged ($)", limits=c(0,NA), labels=function(x) sprintf("%.3f", x/1000), breaks=pretty_breaks(n=8)) +
-  scale_x_datetime("date", limits=c(start_time, stop_time), minor_breaks=pretty_breaks(n=45))
+  scale_x_datetime("date", limits=c(start_time-day_s, stop_time+day_s), minor_breaks=pretty_breaks(n=45))
 
 print(g)
 
@@ -150,7 +150,7 @@ print(g)
 #   geom_hline(yintercept=sg, size=0.5, alpha=0.2) +
 #   geom_vline(xintercept=vlines_time, size=0.5, colour=vlines_colour) +
 #   scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
-#   scale_x_datetime("date", limits=c(start_time, stop_time), minor_breaks=pretty_breaks(n=45))
+#   scale_x_datetime("date", limits=c(start_time-day_s, stop_time+day_s), minor_breaks=pretty_breaks(n=45))
 # 
 # print(g2)
 
@@ -166,7 +166,7 @@ g3 = g3 +
   #geom_smooth(aes(y=sliding_rate)) +
   geom_vline(xintercept=vlines_time, size=0.5, colour=vlines_colour) +
   scale_y_continuous("rate ($/d)", limits=c(min_rate,max_rate), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
-  scale_x_datetime("date", limits=c(start_time, stop_time2), minor_breaks=pretty_breaks(n=45))
+  scale_x_datetime("date", limits=c(start_time-day_s, stop_time2), minor_breaks=pretty_breaks(n=45))
 
 print(g3)
 
