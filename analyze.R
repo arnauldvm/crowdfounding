@@ -37,6 +37,7 @@ if (project=="MN") {
          110,120,130,140,150,170,180,200,
          220,240,260,270,280,290,300,
          310,320,325,330,340,350,360, 370,380,390)*1000
+  rate_notches = c(8000, 4000, 3000, 1500)
   # max_rate = NA
   # max_rate = 20000
   max_rate = 75000
@@ -46,6 +47,7 @@ if (project=="MN") {
   stop_time_str = "20150715-201600"
   stop_time2_str = "20150620-180000"
   sg = c(25,50)*1000
+  rate_notches = c(2000)
   max_rate = NA
 }
 
@@ -128,6 +130,7 @@ breaks$pledged_cont = NA
 results = rbind(results, breaks)
 results = results[order(results$time, results$pledged_cont, na.last=FALSE),]
 
+min_time = min(results$time)
 
 g = ggplot(results, aes(x=time)) +
   geom_line(aes(y=pledged), linetype="dotted") +
@@ -154,6 +157,8 @@ if (nrow(aggs)>=window_width) {
   g3 = g3 + geom_line(aes(y=sliding_rate), linetype="solid")
 }
 g3 = g3 +
+  geom_hline(yintercept=rate_notches, size=0.5, alpha=0.2, colour="red") +
+  annotate("text", x=min_time-day_s, y=rate_notches+100, label=sprintf("%g", rate_notches), size=3) +
   #geom_smooth(aes(y=sliding_rate)) +
   scale_y_continuous("rate ($/d)", limits=c(min_rate,max_rate), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   scale_x_datetime("date", limits=c(start_time, stop_time2), minor_breaks=pretty_breaks(n=45))
