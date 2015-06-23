@@ -154,7 +154,7 @@ if (nrow(aggs)>=window_width) {
   g3 = g3 + geom_line(aes(y=sliding_rate), linetype="solid")
 }
 g3 = g3 +
-  geom_smooth(aes(y=sliding_rate)) +
+  #geom_smooth(aes(y=sliding_rate)) +
   scale_y_continuous("rate ($/d)", limits=c(min_rate,max_rate), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   scale_x_datetime("date", limits=c(start_time, stop_time2), minor_breaks=pretty_breaks(n=45))
 
