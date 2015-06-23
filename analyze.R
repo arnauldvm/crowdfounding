@@ -131,11 +131,14 @@ results = rbind(results, breaks)
 results = results[order(results$time, results$pledged_cont, na.last=FALSE),]
 
 min_time = min(results$time)
+vlines_time = as.numeric(c(start_time, stop_time))
+vlines_colour = c("darkgreen", "darkred")
 
 g = ggplot(results, aes(x=time)) +
   geom_line(aes(y=pledged), linetype="dotted") +
   geom_line(aes(y=pledged_cont), linetype="solid") +
   geom_hline(yintercept=sg, size=0.5, alpha=0.2) +
+  geom_vline(xintercept=vlines_time, size=0.5, colour=vlines_colour) +
   scale_y_continuous("pledged ($)", limits=c(0,NA), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   #scale_y_continuous(pledged ($)", limits=c(0,NA), labels=function(x) sprintf("%.3f", x/1000), breaks=pretty_breaks(n=8)) +
   scale_x_datetime("date", limits=c(start_time, stop_time), minor_breaks=pretty_breaks(n=45))
@@ -145,6 +148,7 @@ print(g)
 # g2 = ggplot(aggs, aes(x=interval)) +
 #   geom_line(aes(y=pledged), linetype="solid") +
 #   geom_hline(yintercept=sg, size=0.5, alpha=0.2) +
+#   geom_vline(xintercept=vlines_time, size=0.5, colour=vlines_colour) +
 #   scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
 #   scale_x_datetime("date", limits=c(start_time, stop_time), minor_breaks=pretty_breaks(n=45))
 # 
@@ -160,6 +164,7 @@ g3 = g3 +
   geom_hline(yintercept=rate_notches, size=0.5, alpha=0.2, colour="red") +
   annotate("text", x=min_time-day_s, y=rate_notches+100, label=sprintf("%g", rate_notches), size=3) +
   #geom_smooth(aes(y=sliding_rate)) +
+  geom_vline(xintercept=vlines_time, size=0.5, colour=vlines_colour) +
   scale_y_continuous("rate ($/d)", limits=c(min_rate,max_rate), labels=function(x) format(x, big.mark="'", scientific=FALSE), breaks=pretty_breaks(n=8)) +
   scale_x_datetime("date", limits=c(start_time, stop_time2), minor_breaks=pretty_breaks(n=45))
 
