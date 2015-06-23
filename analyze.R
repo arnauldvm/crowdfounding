@@ -26,8 +26,26 @@ weights=c(1,2,3,4,5,4,3,2,1)
 # weights=c(1,1,1,1,1,1,1,1,1)
 # weights=c(0,0,0,0,1,0,0,0,0)
 
-stop_time_str = "20150705-180000"
-stop_time2_str = "20150010-180000"
+project="MN"
+# project="HOPE"
+if (project=="MN") {
+  slug="mare-nostrum-empires"
+  stop_time_str = "20150706-192000"
+  stop_time2_str = "20150620-180000"
+  sg = c(15,25,35,45,55,60,70,75,85,90,100,
+         110,120,130,140,150,170,180,200,
+         220,240,260,270,280,290,300,
+         310,320,325,330,340,350,360, 370,380,390)*1000
+  # max_rate = NA
+  # max_rate = 20000
+  max_rate = 75000
+} else {
+  slug="hope-the-board-game"
+  stop_time_str = "20150715-201600"
+  stop_time2_str = "20150620-180000"
+  sg = c(25,50)*1000
+  max_rate = NA
+}
 
 str2time = function(str) {
   return(as.POSIXct(str, format="%Y%m%d-%H%M%S"))
@@ -64,7 +82,7 @@ current = 0
 first = TRUE
 repeat {
   if (first) {
-    found = Search(index="logstash-kickstarter-*", sort="@timestamp", fields=FIELDS, scroll=SCROLL_TIMEOUT, size=PAGE_SIZE)
+    found = Search(index="logstash-kickstarter-*", q=sprintf("slug=%s", slug), sort="@timestamp", fields=FIELDS, scroll=SCROLL_TIMEOUT, size=PAGE_SIZE)
   } else {
     found = scroll(scroll_id=found$`_scroll_id`)
   }
@@ -105,10 +123,6 @@ breaks$pledged_cont = NA
 results = rbind(results, breaks)
 results = results[order(results$time, results$pledged_cont, na.last=FALSE),]
 
-sg = c(15,25,35,45,55,60,70,75,85,90,100,
-       110,120,130,140,150,170,180,200,
-       220,240,260,270,280,290,300,
-       310,320,330,335,345,355)*1000
 
 g = ggplot(results, aes(x=time)) +
   geom_line(aes(y=pledged), linetype="dotted") +
@@ -129,9 +143,6 @@ print(g)
 # print(g2)
 
 min_rate = min(aggs$rate)
-# max_rate = NA
-# max_rate = 20000
-max_rate = 75000
 g3 = ggplot(aggs, aes(x=interval)) +
   geom_line(aes(y=rate, ymin=sliding_rate), linetype="dotted", size=0.5) +
   geom_line(aes(y=sliding_rate), linetype="solid") +
