@@ -26,8 +26,9 @@ weights=c(1,2,3,4,5,4,3,2,1)
 # weights=c(1,1,1,1,1,1,1,1,1)
 # weights=c(0,0,0,0,1,0,0,0,0)
 
-project="MN"
+# project="MN"
 # project="HOPE"
+project="BATTALIA"
 if (project=="MN") {
   slug="mare-nostrum-empires"
   start_time_str = "20150522-190000"
@@ -43,7 +44,7 @@ if (project=="MN") {
   # max_rate = NA
   # max_rate = 20000
   max_rate = 75000
-} else {
+} else if (project=="HOPE") {
   slug="hope-the-board-game"
   start_time_str = "20150615-201500"
   stop_time_str = "20150715-201600"
@@ -51,6 +52,16 @@ if (project=="MN") {
   sg = c(25,50)*1000
   rate_notches = c(2000)
   max_rate = NA
+} else if (project=="BATTALIA") {
+  slug="battalia-the-creation"
+  start_time_str = "20150623-110000"
+  stop_time_str = "20150722-111000"
+  stop_time2_str = "20150722-110000"
+  sg = c(50, (54:65), (70:75), 80, 90, 110)*1000
+  rate_notches = c(1500)
+  max_rate = NA
+} else {
+  stop()
 }
 
 str2time = function(str) {
