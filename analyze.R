@@ -88,7 +88,7 @@ current = 0
 first = TRUE
 repeat {
   if (first) {
-    found = Search(index="logstash-kickstarter-*", q=sprintf("slug=%s", slug), sort="@timestamp", fields=FIELDS, scroll=SCROLL_TIMEOUT, size=PAGE_SIZE)
+    found = Search(index="logstash-kickstarter-*", q=sprintf("slug:\"%s\"", slug), sort="@timestamp", fields=FIELDS, scroll=SCROLL_TIMEOUT, size=PAGE_SIZE)
   } else {
     found = scroll(scroll_id=found$`_scroll_id`)
   }
