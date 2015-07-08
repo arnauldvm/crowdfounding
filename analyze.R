@@ -32,7 +32,8 @@ if (project=="MN") {
   slug="mare-nostrum-empires"
   start_time_str = "20150522-190000"
   stop_time_str = "20150706-192000"
-  stop_time2_str = "20150620-180000"
+#   stop_time2_str = "20150620-180000"
+  stop_time2_str = stop_time_str
   sg = c(15,25,35,45,55,60,70,75,85,90,100,
          110,120,130,140,150,170,180,200,
          220,240,260,270,280,290,300,
