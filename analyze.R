@@ -59,7 +59,7 @@ if (project=="MN") {
   stop_time2_str = "20150722-110000"
   sg = c(50, (54:65), (70:75), 80, 90, 110)*1000
   rate_notches = c(1500)
-  max_rate = NA
+  max_rate = 60000
   interval_d = 1
 } else {
   stop()
