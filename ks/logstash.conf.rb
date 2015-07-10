@@ -37,4 +37,9 @@ output {
   } else {
     elasticsearch { host => localhost protocol => "http" port => "9200" index => "logstash-kickstarter-%{+YYYY.MM.dd}" flush_size => 1}
   }
+  if "_grokparsefailure" in [tags] {
+    stdout {
+      codec => "json_lines"
+    }
+  }
 }
