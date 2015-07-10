@@ -21,7 +21,7 @@ filter {
     convert => [ "pledged", "integer" ]
   }
   mutate { remove_field => [ "host" ] }
-  if "_grok_parse_failure" not in [tags] {
+  if "_grokparsefailure" not in [tags] {
     mutate { remove_field => [ "message" ] }
   }
 }
