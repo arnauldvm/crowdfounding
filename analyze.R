@@ -19,8 +19,6 @@ SCROLL_TIMEOUT="30s"
 FIELDS=c('timestamp', 'pledged')
 
 day_s = 24*60*60
-interval_d = 1/6
-interval_s = interval_d*day_s
 window_width = 9
 weights=c(1,2,3,4,5,4,3,2,1)
 # weights=c(1,1,1,1,1,1,1,1,1)
@@ -44,6 +42,7 @@ if (project=="MN") {
   # max_rate = NA
   # max_rate = 20000
   max_rate = 75000
+  interval_d = 1/6
 } else if (project=="HOPE") {
   slug="hope-the-board-game"
   start_time_str = "20150615-201500"
@@ -52,6 +51,7 @@ if (project=="MN") {
   sg = c(25,50)*1000
   rate_notches = c(2000)
   max_rate = NA
+  interval_d = 1/6
 } else if (project=="BATTALIA") {
   slug="battalia-the-creation"
   start_time_str = "20150623-110000"
@@ -60,6 +60,7 @@ if (project=="MN") {
   sg = c(50, (54:65), (70:75), 80, 90, 110)*1000
   rate_notches = c(1500)
   max_rate = NA
+  interval_d = 1
 } else {
   stop()
 }
@@ -89,6 +90,7 @@ from_list = function(l, name) {
   #pl = ifelse(length(l>0), ifelse(is.null(l[[1]]), NA, pl_list[[1]]), NA)
 }
 
+interval_s = interval_d*day_s
 start_time = str2time(start_time_str)
 stop_time = str2time(stop_time_str)
 stop_time2 = str2time(stop_time2_str)
